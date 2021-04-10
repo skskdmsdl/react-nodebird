@@ -16,7 +16,7 @@ const AppLayout = ({ children }) => {
     // const [isLoggedIn, setIsLoggedIn] = useState(false);
     
     // isLoggedIn이 바뀌면 알아서 리랜더링 됨
-    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const { isLoggedIn } = useSelector((state) => state.user);
 
     return (
         <div>   
