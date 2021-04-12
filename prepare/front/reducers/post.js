@@ -5,7 +5,7 @@ export const initialState = {
             id: 1,
             nickname: 'kimgo',
         },
-        content: '첫 번째 게시글 #해시태그 #익스프레스',
+        content: '첫 번째 게시글',
         Images: [{
             src: 'https://cdn.pixabay.com/photo/2016/02/10/16/37/cat-1192026_960_720.jpg',
         }, {
@@ -30,30 +30,36 @@ export const initialState = {
 }
 
 const ADD_POST = 'ADD_POST';
+
 export const addPost = {
     type: ADD_POST,
-}
+};
+
 const dummyPost = {
     id: 2,
     content: '더미데이터입니다.',
     User: {
         id: 1,
-        nickname: '킴고'
+        nickname: 'kimgo'
     },
     Images: [],
     Comments: [],
-}
+};
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_POST:
+        case ADD_POST: {
             return {
                 ...state,
                 mainPosts: [dummyPost, ...state.mainPosts],     // 앞에 추가를 해줘야 게시글 위에 올라감
                 postAdded: true,
-            }
-        default:
-            return state;
+            };
+        }
+        default: {
+            return {
+                ...state,
+            };
+        }
     }
 };
 

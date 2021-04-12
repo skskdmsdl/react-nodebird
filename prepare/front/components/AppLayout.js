@@ -1,12 +1,12 @@
 import React from 'react';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Menu, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 
-import UserProfile from '../components/UserProfile';
-import LoginForm from '../components/LoginForm';
+import UserProfile from './UserProfile';
+import LoginForm from './LoginForm';
 
 const SearchInput = styled(Input.Search)`
     verticalAlign: middle;
@@ -54,7 +54,7 @@ const AppLayout = ({ children }) => {
 //props로 넘기는 애들은 propTypes로 검사를 해줘야 함 (typescript에서는 필요 X)
 AppLayout.propTypes = {
     // 여기서 노드는 nodejs가 아니라 화면에 그릴 수 있는 모든것을 말함(return 안에 들어갈 수 있는 것)
-    children: propTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
 export default AppLayout;
