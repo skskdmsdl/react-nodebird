@@ -5,7 +5,7 @@ export const initialState = {
             id: 1,
             nickname: 'kimgo',
         },
-        content: '첫 번째 게시글',
+        content: '첫 번째 게시글 #해시태그 #익스프레스',
         Images: [{
             src: 'https://cdn.pixabay.com/photo/2016/02/10/16/37/cat-1192026_960_720.jpg',
         }, {
