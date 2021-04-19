@@ -11,7 +11,7 @@ function* logIn(action) {
         yield delay(1000);
         yield put({
             type: 'LOG_IN_SUCCESS',
-            // data: result.data,
+            data: action.data,
         });
     } catch (err) {
         yield put({
