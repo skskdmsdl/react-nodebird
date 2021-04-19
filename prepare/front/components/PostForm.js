@@ -1,25 +1,31 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { addPost } from '../reducers/post';
+import useInput from "../hooks/useInput";
 
 const PostForm = () => {
-    const { imagePaths } = useSelector((state) => state.post);
+    const { imagePaths, addPostDone } = useSelector((state) => state.post);
     const dispatch = useDispatch();
-    const imageInput = useRef();
-    const [text, setText] = useState('');
-    const onChangeText = useCallback((e) => {
-        setText(e.target.value);
-    }, []);
+    const [text, onChangeText, setText] = useInput('');
+
+    useEffect(() => {
+        if(addPostDone) {
+            setText('');            // submit 시 inputText 초기화
+        }
+    }, [addPostDone]);
+
     const onSubmit = useCallback(() => {
-        dispatch(addPost);      // 원래 dispatch 자리에는 객체가 들어가는게 맞음
-        setText('');            // submit 시 inputText 초기화
-    }, []);
+        dispatch(addPost(text));      // 원래 dispatch 자리에는 객체가 들어가는게 맞음
+    }, [text]);
+
+    const imageInput = useRef();
     // 버튼 눌러서 사진 업로드창 띄우기
     const onClickImageUpload = useCallback(() => {
         imageInput.current.click();
     }, [imageInput.current]);
     console.log("@@", imagePaths);
+
     return (
         <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
             <Input.TextArea

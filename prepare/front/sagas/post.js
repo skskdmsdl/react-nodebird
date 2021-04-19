@@ -3,7 +3,7 @@ import axios from 'axios';
 import { 
     ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE,
     ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS, ADD_COMMENT_FAILURE,
-} from '../reducers/user';
+} from '../reducers/post';
 
 function addPostAPI(data) {                  
     return axios.post('/api/post', data);    
@@ -15,7 +15,7 @@ function* addPost(action) {
         yield delay(1000);
         yield put({
             type: ADD_POST_SUCCESS,
-            // data: result.data,
+            data: action.data,
         });
     } catch (err) {
         yield put({
@@ -35,7 +35,7 @@ function* addComment(action) {
         yield delay(1000);
         yield put({
             type: ADD_COMMENT_SUCCESS,
-            // data: result.data,
+            data: action.data,
         });
     } catch (err) {
         yield put({
