@@ -5,7 +5,7 @@ import faker from 'faker';
 export const initialState = {
   mainPosts: [],
   imagePaths: [],
-  hasMorePosts: false,
+  hasMorePosts: true,
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
@@ -22,24 +22,24 @@ export const initialState = {
 
 export const generateDummyPost = (number) => Array(number).fill().map(() => ({
   id: shortId.generate(),
+  User: {
+    id: shortId.generate(),
+    nickname: faker.name.findName(),
+  },
+  contnet: faker.lorem.paragraph,
+  Images: [{
+    src: faker.image.image(),
+  }],
+  Comments: [{
     User: {
       id: shortId.generate(),
       nickname: faker.name.findName(),
     },
-    contnet: faker.lorem.paragraph,
-    Images: [{
-      src: faker.image.image(),
-    }],
-    Comments: [{
-      User: {
-        id: shortId.generate(),
-        nickname: faker.name.findName(),
-      },
-      content: faker.lorem.sentence(),
-    }],
-}))
+    content: faker.lorem.sentence(),
+  }],
+}));
 
-initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
+// initialState.mainPosts = initialState.mainPosts.concat(generateDummyPost(10));
 
 // 더미데이터 생성
 // initialState.mainPosts = initialState.mainPosts.concat(
@@ -121,7 +121,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case LOAD_POSTS_SUCCESS:
       draft.loadPostsLoading = false;
       draft.loadPostsDone = true;
-      draft.mainPosts = action.data.concat(draft.mainPosts); // action.data(기존 데이터)와 더미데이터 합쳐줌
+      draft.mainPosts = action.data.concat(draft.mainPosts); // action.data(더미데이터)와 기존데이터 합쳐줌
       draft.hasMorePosts = draft.mainPosts.length < 50;
       break;
     case LOAD_POSTS_FAILURE:

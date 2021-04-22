@@ -22,6 +22,8 @@ const PostCardContent = ({ postData }) => ( // 첫 번째 게시글 #해시태�
   </div>
 );
 
-PostCardContent.propTypes = { postData: PropTypes.string.isRequired };
+PostCardContent.propTypes = {
+  postData: PropTypes.string.isRequired,
+};
 
 export default PostCardContent;
