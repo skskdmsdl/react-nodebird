@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 
 import useInput from '../hooks/useInput';
-import { loginRequestAction } from '../reducers/user';
+import { LOG_IN_REQUEST } from '../reducers/user';
 
 const ButtonWrapper = styled.div`
     margin-top: 10px;
@@ -17,7 +17,7 @@ const FormWrapper = styled(Form)`
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { logInloading } = useSelector((state) => state.user);
+  const { logInLoading } = useSelector((state) => state.user);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
@@ -29,14 +29,17 @@ const LoginForm = () => {
 
   // const style = useMemo(() => ({ marginTop: 10 }), []);
 
-  const onSubmitFrom = useCallback(() => {
+  const onSubmitForm = useCallback(() => {
     console.log(email, password);
-    dispatch(loginRequestAction({ email, password }));
+    dispatch({
+      type: LOG_IN_REQUEST,
+      data: { email, password },
+    });
   }, [email, password]);
 
   return (
     // onFinish는 자동으로 e.preventDefault()가 적용이 되어 있음(ant-design)
-    <FormWrapper onFinish={onSubmitFrom}>
+    <FormWrapper onFinish={onSubmitForm}>
       <div>
         <label htmlFor="user-email">이메일</label>
         <br />
@@ -54,15 +57,11 @@ const LoginForm = () => {
         />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={logInloading}>로그인</Button>
+        <Button type="primary" htmlType="submit" loading={logInLoading}>로그인</Button>
         <Link href="/signup"><a><Button>회원가입</Button></a></Link>
       </ButtonWrapper>
     </FormWrapper>
   );
 };
-
-// LoginForm.propTypes = {
-//     setIsLoggedIn: PropTypes.func.isRequired,
-// }
 
 export default LoginForm;

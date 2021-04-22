@@ -1,6 +1,7 @@
 import shortId from 'shortid';
-import produce from 'immer';
 import faker from 'faker';
+
+import produce from '../util/produce';
 
 export const initialState = {
   mainPosts: [],
@@ -26,7 +27,7 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
     id: shortId.generate(),
     nickname: faker.name.findName(),
   },
-  contnet: faker.lorem.paragraph,
+  content: faker.lorem.paragraph(),
   Images: [{
     src: faker.image.image(),
   }],

@@ -14,6 +14,7 @@ import rootSaga from '../sagas';
 // };
 
 const configureStore = (context) => {
+  console.log(context);
   const sagaMiddleware = createSagaMiddleware(); // saga에서 추가된 부분
   const middlewares = [sagaMiddleware];
   const enhancer = process.env.NODE_ENV === 'production'
