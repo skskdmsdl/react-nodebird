@@ -9,7 +9,7 @@ import FollowList from '../components/FollowList';
 
 const Profile = () => {
   const { me } = useSelector((state) => state.user);
-  useEffect(() => {
+  useEffect(() => { // 내 정보가 없으면 되돌려보내기
     if (!(me && me.id)) {
       Router.push('/');
     }
