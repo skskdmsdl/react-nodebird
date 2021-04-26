@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('Post', { // MySQL에는 users로 저장됨
+    const Post = sequelize.define('Post', { // MySQL에는 users로 저장됨
         // id가 기본적으로 들어있음
         content: {
             type: DataTypes.TEXT, // 무제한 길이
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         db.Post.hasMany(db.Comment);
         db.Post.hasMany(db.Image);
         db.Post.belongsToMany(db.User, { through: 'Like', as: 'Likers' });
-        db.Post.belongsToMany(db.Post, { as: 'Retweet' });
+        db.Post.belongsTo(db.Post, { as: 'Retweet' });
     };
     return Post;
 }

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('Comment', { // MySQL에는 users로 저장됨
+    const Comment = sequelize.define('Comment', { // MySQL에는 users로 저장됨
         // id가 기본적으로 들어있음
         content: {
             type: DataTypes.TEXT,
