@@ -101,14 +101,14 @@ export const addComment = (data) => ({
 //   Comments: [],
 // });
 
-const dummyComment = (data) => ({
-  id: shortId.generate(),
-  content: data,
-  User: {
-    id: 1,
-    nickname: 'kimgo',
-  },
-});
+// const dummyComment = (data) => ({
+//   id: shortId.generate(),
+//   content: data,
+//   User: {
+//     id: 1,
+//     nickname: 'kimgo',
+//   },
+// });
 
 // reducer : 이전 상태를 액션을 통해 다음 상태로 만들어내는 함수(불변성은 지키면서)
 // state 이름이 draft로 바뀌고, draft는 불변성 상관 없이 막 바꿔도 됨(알아서 불변성 유지해줌)

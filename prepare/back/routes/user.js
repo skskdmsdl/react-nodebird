@@ -7,6 +7,38 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
+// 사용자 불러오기
+router.get('/', async (req, res, next) => {
+    try {
+        if (req.user) {
+            const fullUserWithoutPassword = await User.findOne({
+                whrer: { id: req.user.id },
+                attributes: {
+                    exclude: ['password']
+                },
+                include: [{
+                    model: Post,
+                    attributes: ['id'],
+                }, {
+                    model: User,
+                    as: 'Followings',
+                    attributes: ['id'],
+                }, {
+                    model: User,
+                    as: 'Followers',
+                    attributes: ['id'],
+                }]
+            })
+            res.status(200).json(fullUserWithoutPassword);
+        } else {
+            res.status(200).json(null);
+        }
+    } catch (error) {
+        console.error();
+        next(error);
+    }
+});
+
 // 미들웨어 확장 router.post('/login', passport.authenticate('local', (err, user, info) => {...});
 router.post('/login', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
@@ -29,12 +61,15 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
                 },
                 include: [{
                     model: Post,
+                    attributes: ['id'],
                 }, {
                     model: User,
                     as: 'Followings',
+                    attributes: ['id'],
                 }, {
                     model: User,
                     as: 'Followers',
+                    attributes: ['id'],
                 }]
             })
             return res.status(200).json(fullUserWithoutPassword); // 사용자정보 프론트로 넘겨줌
