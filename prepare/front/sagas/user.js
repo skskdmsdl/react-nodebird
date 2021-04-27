@@ -25,7 +25,7 @@ function logInAPI(data) { // *쓰면 에러남
 
 function* logIn(action) {
   try {
-    const result = yield call(logInAPI, action.data);    // call(함수, 함수에 들어가는 매개변수, 매개변수,...)
+    const result = yield call(logInAPI, action.data); // call(함수, 함수에 들어가는 매개변수, 매개변수,...)
     yield put({
       type: LOG_IN_SUCCESS,
       data: result.data,
@@ -44,11 +44,9 @@ function logOutAPI() {
 
 function* logOut() {
   try {
-    // const result = yield call(logOutAPI);
-    yield delay(1000);
+    yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
-      // data: result.data,
     });
   } catch (err) {
     yield put({
