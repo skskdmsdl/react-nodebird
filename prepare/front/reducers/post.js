@@ -90,16 +90,16 @@ export const addComment = (data) => ({
   data,
 });
 
-const dummyPost = (data) => ({
-  id: data.id,
-  content: data.content,
-  User: {
-    id: 1,
-    nickname: 'kimgo',
-  },
-  Images: [],
-  Comments: [],
-});
+// const dummyPost = (data) => ({
+//   id: data.id,
+//   content: data.content,
+//   User: {
+//     id: 1,
+//     nickname: 'kimgo',
+//   },
+//   Images: [],
+//   Comments: [],
+// });
 
 const dummyComment = (data) => ({
   id: shortId.generate(),
@@ -137,7 +137,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case ADD_POST_SUCCESS:
       draft.addPostLoading = false;
       draft.addPostDone = true;
-      draft.mainPosts.unshift(dummyPost(action.data));
+      draft.mainPosts.unshift(action.data);
       break;
     case ADD_POST_FAILURE:
       draft.addPostLoading = false;
@@ -163,8 +163,8 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       draft.addCommentError = null;
       break;
     case ADD_COMMENT_SUCCESS: {
-      const post = draft.mainPosts.find((v) => v.id === action.data.postId); // 게시글 찾기
-      post.Comments.unshift(dummyComment(action.data.content)); // 게시글 추가하기
+      const post = draft.mainPosts.find((v) => v.id === action.data.PostId); // 게시글 찾기
+      post.Comments.unshift(action.data); // 게시글 추가하기
       draft.addCommentLoading = false;
       draft.addCommentDone = true;
       break;

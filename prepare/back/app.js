@@ -21,7 +21,8 @@ db.sequelize.sync()
 passportConfig();
 
 app.use(cors({
-    origin: '*',
+    origin: 'http://localhost:3000', // 정확한 주소 혹은 origin: true
+    credentials: true,
 }));
 // 프론트에서 보낸 데이터를 req.body에 넣어주는 역할을 해줌(위치 중요-> 라우터 위)
 app.use(express.json());
@@ -53,6 +54,11 @@ app.get('/posts', (req, res) => {
 
 app.use('/post', postRouter); // post가 prefix로 붙음
 app.use('/user', userRouter); 
+
+// 에러처리 미들웨어 (기본으로 제공하나 따로 만들고 싶을때 추가하기)
+// app.use((err, req, res, next) => {
+    
+// });
 
 app.listen(3065, () => {
     console.log('서버 실행 중!');
