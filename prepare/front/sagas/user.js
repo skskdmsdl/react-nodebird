@@ -20,17 +20,15 @@ import {
 } from '../reducers/user';
 
 function logInAPI(data) { // *쓰면 에러남
-  return axios.post('/api/login', data); // 실제 서버에 요청 보냄
+  return axios.post('/user/login', data); // 실제 서버에 요청 보냄
 }
 
 function* logIn(action) {
   try {
-    console.log('saga logIn');
-    // const result = yield call(logInAPI, action.data);    // call(함수, 함수에 들어가는 매개변수, 매개변수,...)
-    yield delay(1000);
+    const result = yield call(logInAPI, action.data);    // call(함수, 함수에 들어가는 매개변수, 매개변수,...)
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -41,7 +39,7 @@ function* logIn(action) {
 }
 
 function logOutAPI() {
-  return axios.post('/api/logout');
+  return axios.post('/user/logout');
 }
 
 function* logOut() {
@@ -61,14 +59,13 @@ function* logOut() {
 }
 
 function signUpAPI(data) {
-  return axios.post('http://localhost:3065/user', data);
+  return axios.post('/user', data);
 }
 
 function* signUp(action) {
   try {
     const result = yield call(signUpAPI, action.data);
     console.log(result);
-    yield delay(1000);
     yield put({
       type: SIGN_UP_SUCCESS,
       // data: result.data,
