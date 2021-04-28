@@ -21,6 +21,8 @@ import {
   LOAD_USER_FAILURE,
   LOAD_USER_REQUEST,
   CHANGE_NICKNAME_REQUEST,
+  CHANGE_NICKNAME_SUCCESS,
+  CHANGE_NICKNAME_FAILURE,
 } from '../reducers/user';
 
 function changeNicknameAPI(data) {
@@ -31,12 +33,12 @@ function* changeNickname(action) {
   try {
     const result = yield call(changeNicknameAPI, action.data);
     yield put({
-      type: LOAD_USER_SUCCESS,
+      type: CHANGE_NICKNAME_SUCCESS,
       data: result.data,
     });
   } catch (err) {
     yield put({
-      type: LOAD_USER_FAILURE,
+      type: CHANGE_NICKNAME_FAILURE,
       error: err.response.data,
     });
   }
