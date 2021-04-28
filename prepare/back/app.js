@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const path = require('path');
 
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
@@ -27,6 +28,7 @@ app.use(cors({
     origin: 'http://localhost:3000', // 정확한 주소 혹은 origin: true
     credentials: true,
 }));
+app.use('/', express.static(path.join(__dirname, 'uploads'))); // 운영체제에 따라 경로구분자에 문제가 생길 수 있어 join 사용
 // 프론트에서 보낸 데이터를 req.body에 넣어주는 역할을 해줌(위치 중요-> 라우터 위)
 app.use(express.json()); // axios로 데이터 보낼 때 
 app.use(express.urlencoded({ extended: true })); // 일반 form으로 데이터 보낼 때
