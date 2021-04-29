@@ -10,6 +10,7 @@ const path = require('path');
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
 const userRouter = require('./routes/user');
+const hashtagRouter = require('./routes/hashtag');
 const db = require('./models');
 const passportConfig = require('./passport');
 
@@ -49,6 +50,7 @@ app.get('/', (req, res) => {
 app.use('/post', postRouter); // post가 prefix로 붙음
 app.use('/posts', postsRouter);
 app.use('/user', userRouter); 
+app.use('/hashtag', hashtagRouter); 
 
 // 에러처리 미들웨어 (기본으로 제공하나 따로 만들고 싶을때 추가하기)
 // app.use((err, req, res, next) => {
