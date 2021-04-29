@@ -200,7 +200,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
       break;
     case UNLIKE_POST_SUCCESS: {
       const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
-      post.Likers = post.Likers.filter((v) => v.id === action.data.UserId);
+      post.Likers = post.Likers.filter((v) => v.id !== action.data.UserId);
       draft.unlikePostLoading = false;
       draft.unlikePostDone = true;
       break;
@@ -247,7 +247,7 @@ const reducer = (state = initialState, action) => produce(state, (draft) => {
     case REMOVE_POST_SUCCESS:
       draft.removePostLoading = false;
       draft.removePostDone = true;
-      draft.mainPosts = draft.mainPosts.filter((v) => v.id !== action.PostId);
+      draft.mainPosts = draft.mainPosts.filter((v) => v.id !== action.data.PostId);
       break;
     case REMOVE_POST_FAILURE:
       draft.removePostLoading = false;

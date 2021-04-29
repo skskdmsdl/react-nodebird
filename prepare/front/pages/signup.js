@@ -9,14 +9,6 @@ import AppLayout from '../components/AppLayout';
 import useInput from '../hooks/useInput';
 
 const Signup = () => {
-  const [passwordCheck, setPasswordCheck] = useState('');
-  const [term, setTerm] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
-  const [termError, setTermError] = useState(false);
-
-  const [email, onChangeEmail] = useInput('');
-  const [nickname, onChangeNickname] = useInput('');
-  const [password, onChangePassword] = useInput('');
   const dispatch = useDispatch();
   const { signUpLoading, signUpDone, signUpError, me } = useSelector((state) => state.user);
 
@@ -38,6 +30,24 @@ const Signup = () => {
     }
   }, [signUpError]);
 
+  const [email, onChangeEmail] = useInput('');
+  const [nickname, onChangeNickname] = useInput('');
+  const [password, onChangePassword] = useInput('');
+
+  const [passwordCheck, setPasswordCheck] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
+  const onChangePasswordCheck = useCallback((e) => {
+    setPasswordCheck(e.target.value);
+    setPasswordError(e.target.value !== password);
+  }, [password]);
+
+  const [term, setTerm] = useState('');
+  const [termError, setTermError] = useState(false);
+  const onChangeTerm = useCallback((e) => {
+    setTerm(e.target.checked);
+    setTermError(false);
+  }, []);
+
   const onSubmit = useCallback(() => {
     if (password !== passwordCheck) {
       return setPasswordError(true);
@@ -45,25 +55,12 @@ const Signup = () => {
     if (!term) {
       return setTermError(true);
     }
-    return dispatch({
+    console.log(email, nickname, password);
+    dispatch({
       type: SIGN_UP_REQUEST,
-      data: {
-        email,
-        password,
-        nickname,
-      },
+      data: { email, password, nickname },
     });
   }, [email, password, passwordCheck, term]);
-
-  const onChangePasswordCheck = useCallback((e) => {
-    setPasswordError(e.target.value !== password);
-    setPasswordCheck(e.target.value);
-  }, [password]);
-
-  const onChangeTerm = useCallback((e) => {
-    setTermError(false);
-    setTerm(e.target.checked);
-  }, []);
 
   return (
     <AppLayout>

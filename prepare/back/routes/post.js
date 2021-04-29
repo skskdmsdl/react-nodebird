@@ -147,33 +147,33 @@ router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => { // POST 
     }
   });
 
-router.post('/:postId/comment', isLoggedIn, async (req, res, next) => { // POST /post/1/comment
+  router.post('/:postId/comment', isLoggedIn, async (req, res, next) => { // POST /post/1/comment
     try {
-        const post = await Post.findOne({
-            where: { id: req.params.PostId },
-        });
-        if (!post) {
-            return res.status(403).send('존재하지 않는 게시글입니다.');
-        }
-        const comment = await Comment.create({
-            content: req.body.content,
-            PostId: parseInt(req.params.PostId, 10),
-            USerId: req.user.id,
-        })
-        const fullComment = await Comment.findOne({
-            where: { id: comment.id },
-            include: [{
-                model: User,
-                attributes: ['id', 'nickname'],
-            }],
-        })
-        
-        res.status(201).json(comment);
+      const post = await Post.findOne({
+        where: { id: req.params.postId },
+      });
+      if (!post) {
+        return res.status(403).send('존재하지 않는 게시글입니다.');
+      }
+      const comment = await Comment.create({
+        content: req.body.content,
+        PostId: parseInt(req.params.postId, 10),
+        UserId: req.user.id,
+      })
+      const fullComment = await Comment.findOne({
+        where: { id: comment.id },
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname'],
+        }],
+      })
+      res.status(201).json(fullComment);
     } catch (error) {
-        console.error(error);
-        next(error);
+      console.error(error);
+      next(error);
     }
-});
+  });
+  
 
 router.patch('/:postId/like', isLoggedIn, async (req, res, next) => { // PATCH /post/1/like
     try {

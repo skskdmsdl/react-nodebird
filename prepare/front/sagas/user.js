@@ -210,7 +210,7 @@ function* follow(action) {
 }
 
 function unfollowAPI(data) {
-  return axios.delete(`/user/${data}/unfollow`);
+  return axios.delete(`/user/${data}/follow`);
 }
 
 function* unfollow(action) {

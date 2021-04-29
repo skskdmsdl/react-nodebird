@@ -8,8 +8,8 @@ import { ADD_COMMENT_REQUEST } from '../reducers/post';
 
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
-  const { addCommentDone, addCommentLoading } = useSelector((state) => state.post);
   const id = useSelector((state) => state.user.me?.id);
+  const { addCommentDone, addCommentLoading } = useSelector((state) => state.post);
   // custom hook사용으로 useState와 useCallback 조합해서 사용하던걸 줄일 수 있음
   const [commentText, onChangeCommentText, setCommentText] = useInput('');
 
@@ -22,14 +22,14 @@ const CommentForm = ({ post }) => {
   const onSubmitComment = useCallback(() => {
     dispatch({
       type: ADD_COMMENT_REQUEST,
-      data: { content: commentText, userId: id, postId: post.id },
+      data: { content: commentText, postId: post.id, userId: id },
     });
   }, [commentText, id]);
 
   return (
     <Form onFinish={onSubmitComment}>
       <Form.Item style={{ position: 'relative', margin: 0 }}>
-        <Input.TextArea rows={4} value={commentText} onChange={onChangeCommentText} />
+        <Input.TextArea value={commentText} onChange={onChangeCommentText} rows={4} />
         <Button
           style={{ position: 'absolute', right: 0, bottom: -40, zIndex: 1 }}
           type="primary"

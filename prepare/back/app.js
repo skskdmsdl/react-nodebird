@@ -45,10 +45,7 @@ app.get('/', (req, res) => {
     res.send('hello express');
 });
 
-app.get('/', (req, res) => {
-    res.send('hello api');
-});
-
+// API는 다른 서비스가 내 서비스의 기능을 실행할 수 있게 열어둔 창구
 app.use('/post', postRouter); // post가 prefix로 붙음
 app.use('/posts', postsRouter);
 app.use('/user', userRouter); 

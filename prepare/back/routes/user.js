@@ -9,72 +9,72 @@ const user = require('../models/user');
 const router = express.Router();
 
 // 사용자 불러오기
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res, next) => { // GET /user
     try {
-        if (req.user) {
-            const fullUserWithoutPassword = await User.findOne({
-                whrer: { id: req.user.id },
-                attributes: {
-                    exclude: ['password']
-                },
-                include: [{
-                    model: Post,
-                    attributes: ['id'],
-                }, {
-                    model: User,
-                    as: 'Followings',
-                    attributes: ['id'],
-                }, {
-                    model: User,
-                    as: 'Followers',
-                    attributes: ['id'],
-                }]
-            })
-            res.status(200).json(fullUserWithoutPassword);
-        } else {
-            res.status(200).json(null);
-        }
+      if (req.user) {
+        const fullUserWithoutPassword = await User.findOne({
+          where: { id: req.user.id },
+          attributes: {
+            exclude: ['password']
+          },
+          include: [{
+            model: Post,
+            attributes: ['id'],
+          }, {
+            model: User,
+            as: 'Followings',
+            attributes: ['id'],
+          }, {
+            model: User,
+            as: 'Followers',
+            attributes: ['id'],
+          }]
+        })
+        res.status(200).json(fullUserWithoutPassword);
+      } else {
+        res.status(200).json(null);
+      }
     } catch (error) {
-        console.error();
-        next(error);
-    }
+      console.error(error);
+   next(error);
+  }
 });
 
 // 미들웨어 확장 router.post('/login', passport.authenticate('local', (err, user, info) => {...});
 router.post('/login', isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-        if (err) {
-            console.err(err);
-            return next(error);
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
+      if (info) {
+        return res.status(401).send(info.reason);
+      }
+      return req.login(user, async (loginErr) => {
+        if (loginErr) {
+          console.error(loginErr);
+          return next(loginErr);
         }
-        if (info) {
-            return res.status(401).send(info.reason);
-        }
-        return req.login(user, async (loginErr) => {
-            if(loginErr) {
-                console.log(loginErr);
-                return next(loginErr);
-            }
-            const fullUserWithoutPassword = await User.findOne({
-                whrer: { id: user.id },
-                attributes: {
-                    exclude: ['password']
-                },
-                include: [{
-                    model: Post,
-                    attributes: ['id'],
-                }, {
-                    model: User,
-                    as: 'Followings',
-                    attributes: ['id'],
-                }, {
-                    model: User,
-                    as: 'Followers',
-                    attributes: ['id'],
-                }]
-            })
-            return res.status(200).json(fullUserWithoutPassword); // 사용자정보 프론트로 넘겨줌
+        const fullUserWithoutPassword = await User.findOne({
+          where: { id: user.id },
+          attributes: {
+            exclude: ['password']
+          },
+          include: [{
+            model: Post,
+            attributes: ['id'],
+          }, {
+            model: User,
+            as: 'Followings',
+            attributes: ['id'],
+          }, {
+            model: User,
+            as: 'Followers',
+            attributes: ['id'],
+          }]
         })
+        return res.status(200).json(fullUserWithoutPassword); // 사용자정보 프론트로 넘겨줌
+      });
     })(req, res, next);
 });
 
@@ -94,7 +94,6 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
             nickname: req.body.nickname,
             password: hashedPassword,
         });
-        res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(201).send('ok'); // 잘 생성됨
     } catch (error) {
         console.error(error);
@@ -102,7 +101,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
     }
 });
 
-router.post('/logout', isLoggedIn, (req, res, next) => {
+router.post('/logout', isLoggedIn, (req, res) => {
     req.logout();
     req.session.destroy();
     res.send('ok');
@@ -155,14 +154,14 @@ router.delete('/follower/:userId', isLoggedIn, async (req, res, next) => { // DE
       const user = await User.findOne({ where: { id: req.params.userId }});
       if (!user) {
         res.status(403).send('없는 사람을 차단하려고 하시네요?');
-      }
-      await user.removeFollowings(req.user.id);
-      res.status(200).json({ UserId: parseInt(req.params.userId, 10) });
+        }
+        await user.removeFollowings(req.user.id);
+        res.status(200).json({ UserId: parseInt(req.params.userId, 10) });
     } catch (error) {
-      console.error(error);
-      next(error);
+        console.error(error);
+        next(error);
     }
-  });
+});
 
 router.get('/followers', isLoggedIn, async (req, res, next) => { // GET /user/followers
     try {

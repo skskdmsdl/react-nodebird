@@ -1,7 +1,7 @@
 import produce from '../util/produce';
 
 export const initialState = {
-  loadUserLoading: false, // 유저정보 가져오기 시도중
+  loadUserLoading: false, // 유저 정보 가져오기 시도중
   loadUserDone: false,
   loadUserError: null,
   followLoading: false, // 팔로우 시도중
@@ -89,6 +89,7 @@ export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 // });
 
 // action creator
+
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
   data,
