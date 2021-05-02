@@ -136,8 +136,8 @@ function* loadMyInfo() {
   }
 }
 
-function loadUserAPI() {
-  return axios.get('/user'); // withCredentials는 true임
+function loadUserAPI(data) {
+  return axios.get(`/user/${data}`); // withCredentials는 true임
 }
 
 function* loadUser(action) {
@@ -148,6 +148,7 @@ function* loadUser(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOAD_USER_FAILURE,
       error: err.response.data,

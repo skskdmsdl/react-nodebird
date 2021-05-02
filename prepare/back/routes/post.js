@@ -11,7 +11,7 @@ const router = express.Router();
 try {
     fs.accessSync('uploads');
 } catch (error) {
-    console.log('uploads 폴더가 엇으므로 생성합니다.');
+    console.log('uploads 폴더가 없으므로 생성합니다.');
     fs.mkdirSync('uploads');
 }
 
@@ -202,11 +202,10 @@ router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => { // POST 
       next(error);
     }
   });
-  
 
-router.patch('/:postId/like', isLoggedIn, async (req, res, next) => { // PATCH /post/1/like
+  router.patch('/:postId/like', isLoggedIn, async (req, res, next) => { // PATCH /post/1/like
     try {
-        const post = await Post.findOne({ where: { id: req.params.postId }});
+      const post = await Post.findOne({ where: { id: req.params.postId }});
         if (!post) {
             return res.status(403).send('게시글이 존재하지 않습니다.');
         }
@@ -219,32 +218,32 @@ router.patch('/:postId/like', isLoggedIn, async (req, res, next) => { // PATCH /
 });
 
 router.delete('/:postId/like', isLoggedIn, async (req, res, next) => { // DELETE /post/1/like
-    try {
-        const post = await Post.findOne({ where: { id: req.params.postId }});
-        if (!post) {
-            return res.status(403).send('게시글이 존재하지 않습니다.');
-        }
-        await post.removeLikers(req.user.id); 
-        res.json({ PostId: post.id, UserId: req.user.id });
-    } catch (error) {
-        console.error(error);
-        next(error);
+  try {
+    const post = await Post.findOne({ where: { id: req.params.postId }});
+    if (!post) {
+      return res.status(403).send('게시글이 존재하지 않습니다.');
     }
+    await post.removeLikers(req.user.id);
+    res.json({ PostId: post.id, UserId: req.user.id });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 router.delete('/:postId', isLoggedIn, async (req, res, next) => { // DELETE /post/10
-    try {
-        await Post.destroy({
-            where: { 
-                id: req.params.postId ,
-                UserId: req.user.id,
-            },
-        });
-        res.json({ PostId: parseInt(req.params.postId, 10) });
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
+  try {
+    await Post.destroy({
+      where: {
+        id: req.params.postId,
+        UserId: req.user.id,
+      },
+    });
+    res.status(200).json({ PostId: parseInt(req.params.postId, 10) });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 module.exports = router;
