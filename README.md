@@ -15,7 +15,6 @@ React/Nodejs를 활용한 트위터 클론 코딩<br/>
 * Express
 * Sequelize(MySQL)
 * Git
-* AWS
 
 # Features
 * 회원가입
