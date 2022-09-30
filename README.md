@@ -3,7 +3,7 @@
 
 # Overview
 React/Nodejs를 활용한 트위터 클론 코딩<br/>
-개발기간 : 2021.04. ~
+개발기간 : 2021.04. ~ 2021.06
 
 # Skills
 * React
